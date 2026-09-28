@@ -1,527 +1,1003 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Treetop Tier List — Birder's Edition</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Canes QB Tier List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --canopy-dark:#1b2f1a;
-    --canopy-mid:#274d2b;
-    --canopy-light:#3d6b3f;
-    --bark:#4a3423;
-    --bark-light:#6b4a30;
-    --parchment:#f4ecd8;
-    --leaf-shadow:rgba(0,0,0,.35);
-    --tier-s:#e0b23e;
-    --tier-a:#7ec850;
-    --tier-b:#3fb6a8;
-    --tier-c:#4d8fd6;
-    --tier-d:#a5713f;
-    --tier-f:#8a4b3b;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:
-      radial-gradient(circle at 20% 10%, rgba(255,255,255,.05), transparent 40%),
-      radial-gradient(circle at 80% 0%, rgba(255,255,255,.04), transparent 35%),
-      linear-gradient(180deg, var(--canopy-dark) 0%, var(--canopy-mid) 45%, var(--bark) 100%);
-    color:var(--parchment);
-    min-height:100vh;
-    padding-bottom:60px;
-  }
-  header{
-    text-align:center;
-    padding:28px 16px 14px;
-    background:linear-gradient(180deg, rgba(0,0,0,.25), transparent);
-    border-bottom:3px solid var(--bark-light);
-  }
-  header h1{
-    margin:0 0 6px;
-    font-size:2rem;
-    letter-spacing:1px;
-    text-shadow:0 2px 4px rgba(0,0,0,.5);
-  }
-  header p{
-    margin:0;
-    opacity:.85;
-    font-size:.95rem;
-  }
-  .toolbar{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:14px;
-  }
-  button{
-    cursor:pointer;
-    border:none;
-    border-radius:8px;
-    padding:9px 16px;
-    font-size:.85rem;
-    font-weight:600;
-    background:var(--bark-light);
-    color:var(--parchment);
-    box-shadow:0 3px 0 rgba(0,0,0,.3);
-    transition:transform .1s ease;
-  }
-  button:hover{transform:translateY(-2px);}
-  button:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.3);}
-  #reset-btn{background:#7a3b3b;}
-  #export-img-btn{background:#3b6b7a;}
-  #export-json-btn{background:#5a5a3b;}
+  :root {
+    color-scheme: light dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 
-  main{
-    max-width:1100px;
-    margin:24px auto;
-    padding:0 16px;
+    --bg: #EDF3EC;
+    --surface: #FFFFFF;
+    --card: #FFFFFF;
+    --pool-bg: #DFEAE0;
+    --ink: #0B2A1C;
+    --muted: #4B6656;
+    --line: #C3D3C7;
+    --orange: #F47321;
+    --orange-ink: #B8480A;
+    --green: #005030;
+    --band-green: #005030;
+    --ph-a: #DCE9DF;
+    --ph-b: #D0E1D4;
+    --ph-ink: #005030;
+    --focus: #B8480A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #062A1D;
+      --surface: #0B3826;
+      --card: #0F4430;
+      --pool-bg: #08301F;
+      --ink: #F1F6EE;
+      --muted: #A8C3B2;
+      --line: #1F5C42;
+      --orange-ink: #F47321;
+      --band-green: #2FA36B;
+      --ph-a: #10503A;
+      --ph-b: #0D4632;
+      --ph-ink: #F47321;
+      --focus: #F9A15E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #062A1D;
+    --surface: #0B3826;
+    --card: #0F4430;
+    --pool-bg: #08301F;
+    --ink: #F1F6EE;
+    --muted: #A8C3B2;
+    --line: #1F5C42;
+    --orange-ink: #F47321;
+    --band-green: #2FA36B;
+    --ph-a: #10503A;
+    --ph-b: #0D4632;
+    --ph-ink: #F47321;
+    --focus: #F9A15E;
   }
 
-  .tier-row{
-    display:flex;
-    min-height:96px;
-    margin-bottom:10px;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 4px 10px var(--leaf-shadow);
-    border:2px solid rgba(0,0,0,.25);
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
   }
-  .tier-label{
-    width:90px;
-    flex:0 0 90px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.6rem;
-    font-weight:800;
-    color:#1b2f1a;
-    text-shadow:0 1px 0 rgba(255,255,255,.25);
-  }
-  .tier-row[data-tier="S"] .tier-label{background:var(--tier-s);}
-  .tier-row[data-tier="A"] .tier-label{background:var(--tier-a);}
-  .tier-row[data-tier="B"] .tier-label{background:var(--tier-b);}
-  .tier-row[data-tier="C"] .tier-label{background:var(--tier-c);}
-  .tier-row[data-tier="D"] .tier-label{background:var(--tier-d);}
-  .tier-row[data-tier="F"] .tier-label{background:var(--tier-f);}
+  body.dragging { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+  body.dragging .card { cursor: grabbing; }
 
-  .dropzone{
-    flex:1;
-    display:flex;
-    flex-wrap:wrap;
-    align-content:flex-start;
-    gap:8px;
-    padding:8px;
-    background:rgba(0,0,0,.25);
-    min-height:96px;
-  }
-  .dropzone.drag-over{
-    background:rgba(255,255,255,.12);
-    outline:2px dashed rgba(255,255,255,.5);
-    outline-offset:-4px;
+  .band {
+    height: 8px;
+    background: linear-gradient(90deg, var(--orange) 0 50%, var(--band-green) 50% 100%);
   }
 
-  #pool-section{
-    margin-top:30px;
-    background:rgba(0,0,0,.2);
-    border-radius:12px;
-    padding:16px;
-    border:2px solid rgba(0,0,0,.25);
+  header.top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 24px 16px 8px;
   }
-  #pool-section h2{
-    margin:0 0 12px;
-    font-size:1.1rem;
-    display:flex;
-    align-items:center;
-    gap:8px;
+  h1 {
+    margin: 0;
+    font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+    font-weight: 900;
+    font-size: clamp(46px, 9vw, 104px);
+    line-height: 0.86;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--orange-ink);
   }
-  #search-input{
-    margin-bottom:12px;
-    width:100%;
-    max-width:260px;
-    padding:8px 10px;
-    border-radius:6px;
-    border:1px solid var(--bark-light);
-    background:rgba(255,255,255,.9);
-    color:#222;
+  .sub {
+    margin: 12px 0 0;
+    max-width: 58ch;
+    color: var(--muted);
+    font-size: 17px;
   }
-  #pool{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    min-height:120px;
+  .controls { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .progress { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+  .bar { width: 140px; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar > span { display: block; height: 100%; width: 0; background: var(--orange); transition: width 0.25s ease; }
+  .btnrow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn {
+    font: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
   }
-
-  .bird-tile{
-    width:104px;
-    background:var(--parchment);
-    color:#2a2a2a;
-    border-radius:8px;
-    padding:4px;
-    text-align:center;
-    box-shadow:0 2px 4px rgba(0,0,0,.4);
-    cursor:grab;
-    user-select:none;
-    touch-action:none;
-    position:relative;
-  }
-  .bird-tile.dragging{
-    opacity:.35;
-  }
-  .bird-tile img{
-    width:100%;
-    height:60px;
-    object-fit:cover;
-    border-radius:5px;
-    background:#ccc;
-    display:block;
-  }
-  .bird-tile .bird-name{
-    font-size:.82rem;
-    line-height:1.2;
-    margin-top:4px;
-    font-weight:700;
-  }
-  .bird-tile .bird-cat{
-    font-size:.72rem;
-    opacity:.75;
-    font-weight:600;
+  .btn:hover { border-color: var(--orange); }
+  .btn.primary { background: var(--orange); border-color: var(--orange); color: #0B2A1C; }
+  .btn:focus-visible, .photo-btn:focus-visible, .remove-btn:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
   }
 
-  #drag-ghost{
-    position:fixed;
-    pointer-events:none;
-    z-index:999;
-    width:88px;
-    opacity:.9;
-    transform:translate(-44px,-30px);
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  @media (min-width: 1100px) {
+    .layout { grid-template-columns: minmax(0, 1fr) 372px; align-items: start; }
+    .pool { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; }
   }
 
-  footer{
-    text-align:center;
-    opacity:.6;
-    font-size:.75rem;
-    margin-top:30px;
+  .tier {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .tier + .tier { margin-top: 10px; }
+  .tier-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+    font-weight: 900;
+    font-size: 60px;
+    line-height: 1;
+    background: var(--t-bg);
+    color: var(--t-fg);
+    user-select: none;
+  }
+  .tier[data-tier="S"] { --t-bg: #F47321; --t-fg: #0B2A1C; }
+  .tier[data-tier="A"] { --t-bg: #F9A15E; --t-fg: #0B2A1C; }
+  .tier[data-tier="B"] { --t-bg: #EBDDBB; --t-fg: #0B2A1C; }
+  .tier[data-tier="C"] { --t-bg: #9CD0AE; --t-fg: #0B2A1C; }
+  .tier[data-tier="D"] { --t-bg: #2F8F60; --t-fg: #FFFFFF; }
+  .tier[data-tier="F"] { --t-bg: #005030; --t-fg: #FFFFFF; }
+
+  .zone {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    min-height: 104px;
+    transition: background-color 0.12s ease;
+  }
+  .zone:empty::before {
+    content: attr(data-hint);
+    align-self: center;
+    padding: 0 6px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .zone.over {
+    background: rgba(244, 115, 33, 0.14);
+    outline: 2px dashed var(--orange);
+    outline-offset: -4px;
   }
 
-  @media (max-width:600px){
-    .tier-label{width:56px;flex:0 0 56px;font-size:1.2rem;}
-    .bird-tile{width:88px;}
-    .bird-tile img{height:55px;}
-    .bird-tile .bird-name{font-size:.72rem;}
-    .bird-tile .bird-cat{font-size:.64rem;}
+  .pool {
+    background: var(--pool-bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 14px 12px;
+  }
+  .pool h2 {
+    margin: 0;
+    font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+  }
+  .pool-note { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  .pool .zone {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 12px 0 0;
+    min-height: 80px;
+  }
+  .pool .card { width: auto; }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 156px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: pan-y;
+  }
+  .card:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .card.is-dragging { opacity: 0.3; }
+  .ghost {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    margin: 0;
+    pointer-events: none;
+    opacity: 0.96;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    background: repeating-linear-gradient(135deg, var(--ph-a) 0 14px, var(--ph-b) 14px 28px);
+    overflow: hidden;
+  }
+  .initials {
+    font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--ph-ink);
+    opacity: 0.7;
+  }
+  .photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+  .years {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: rgba(6, 42, 29, 0.88);
+    color: #FFFFFF;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .photo-btn, .remove-btn {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(6, 42, 29, 0.8);
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  .photo-btn { right: 6px; bottom: 6px; }
+  .remove-btn { left: 6px; top: 6px; font-size: 20px; line-height: 1; }
+  .photo-btn:hover, .remove-btn:hover { background: var(--orange); color: #0B2A1C; }
+
+  .card-body { display: flex; flex-direction: column; gap: 7px; padding: 9px 10px 11px; }
+  .name {
+    font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+    font-weight: 800;
+    font-size: 23px;
+    line-height: 0.98;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 8px;
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.25;
+  }
+  .stats dt { color: var(--muted); }
+  .stats dd { margin: 0; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .note {
+    margin: 0;
+    padding-top: 7px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.3;
+  }
+
+  footer {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 8px 16px 40px;
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 90ch;
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 24px);
+    max-width: calc(100vw - 32px);
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #0B2A1C;
+    color: #FFFFFF;
+    border: 1px solid var(--orange);
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 1100;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  dialog {
+    width: min(440px, calc(100vw - 32px));
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--ink);
+  }
+  dialog::backdrop { background: rgba(3, 20, 14, 0.62); }
+  dialog h3 {
+    margin: 0 0 14px;
+    font-family: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1;
+  }
+  dialog label { display: block; margin-top: 12px; font-weight: 600; font-size: 15px; }
+  dialog input, dialog textarea {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 400;
+  }
+  dialog input:focus-visible, dialog textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+  dialog textarea { min-height: 96px; resize: vertical; }
+  .hint { margin: 5px 0 0; color: var(--muted); font-size: 13px; font-weight: 400; }
+  .dlg-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+
+  @media (max-width: 560px) {
+    header.top { padding-top: 18px; }
+    .tier { grid-template-columns: 46px minmax(0, 1fr); }
+    .tier-label { font-size: 36px; }
+    .zone { gap: 8px; padding: 8px; }
+    .card { width: 124px; }
+    .initials { font-size: 48px; }
+    .name { font-size: 19px; }
+    .stats, .note { font-size: 11.5px; }
+    .pool .zone { grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bar > span, .toast, .zone { transition: none; }
   }
 </style>
 </head>
 <body>
+<div class="band" aria-hidden="true"></div>
 
-<header>
-  <h1>🌳 Treetop Tier List</h1>
-  <p>Drag birds from the Bird Bank into a tier to rank them — S is the treetop, F is the forest floor.</p>
-  <div class="toolbar">
-    <button id="reset-btn">🔄 Reset</button>
-    <button id="export-img-btn">📸 Save as Image</button>
-    <button id="export-json-btn">💾 Copy Rankings</button>
+<header class="top">
+  <div>
+    <h1>Canes QB tier list</h1>
+    <p class="sub">Miami's key quarterbacks from the last 25 seasons. Drag each card into a tier, pressing and holding first on a phone. You can also focus a card and press S, A, B, C, D or F.</p>
+  </div>
+  <div class="controls">
+    <div class="progress">
+      <span id="count">0 of 0 ranked</span>
+      <span class="bar" aria-hidden="true"><span id="barFill"></span></span>
+    </div>
+    <div class="btnrow">
+      <button type="button" class="btn primary" id="addBtn">Add a QB</button>
+      <button type="button" class="btn" id="copyBtn">Copy ranking</button>
+      <button type="button" class="btn" id="resetBtn">Reset</button>
+    </div>
   </div>
 </header>
 
-<main>
-  <div id="tier-list">
-    <div class="tier-row" data-tier="S">
-      <div class="tier-label">S</div>
-      <div class="dropzone" data-tier="S"></div>
-    </div>
-    <div class="tier-row" data-tier="A">
-      <div class="tier-label">A</div>
-      <div class="dropzone" data-tier="A"></div>
-    </div>
-    <div class="tier-row" data-tier="B">
-      <div class="tier-label">B</div>
-      <div class="dropzone" data-tier="B"></div>
-    </div>
-    <div class="tier-row" data-tier="C">
-      <div class="tier-label">C</div>
-      <div class="dropzone" data-tier="C"></div>
-    </div>
-    <div class="tier-row" data-tier="D">
-      <div class="tier-label">D</div>
-      <div class="dropzone" data-tier="D"></div>
-    </div>
-    <div class="tier-row" data-tier="F">
-      <div class="tier-label">F</div>
-      <div class="dropzone" data-tier="F"></div>
-    </div>
-  </div>
-
-  <div id="pool-section">
-    <h2>🪺 Bird Bank <span style="font-size:.7rem;opacity:.6;">(drag tiles up into a tier)</span></h2>
-    <input type="text" id="search-input" placeholder="Search birds or categories...">
-    <div id="pool" class="dropzone" data-tier="pool"></div>
-  </div>
+<main class="layout">
+  <div id="tiers"></div>
+  <aside class="pool" id="pool" aria-label="Unranked quarterbacks">
+    <h2>Unranked</h2>
+    <p class="pool-note">Drag a card up into a tier.</p>
+    <div class="zone" id="poolZone" data-zone="pool" data-hint="Everyone is ranked."></div>
+  </aside>
 </main>
 
-<footer>Images courtesy of Wikipedia. Rankings are saved automatically in your browser.</footer>
+<footer>
+  Stats are Miami only, from the University of Miami's official records and Wikipedia's Miami football statistical leaders, current through Week 4 of 2026. Mensah's line covers his first three games. To add a photo, use the camera button on any card.
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<dialog id="addDlg">
+  <form id="addForm" novalidate>
+    <h3>Add a quarterback</h3>
+    <label for="fName">Name
+      <input id="fName" name="name" type="text" maxlength="40" autocomplete="off" required>
+    </label>
+    <label for="fYears">Years at Miami
+      <input id="fYears" name="years" type="text" maxlength="16" autocomplete="off" placeholder="2008-2009">
+    </label>
+    <label for="fStats">Stats
+      <textarea id="fStats" name="stats" placeholder="Pass yards: 2,500&#10;Pass TD: 20&#10;Record as starter: 8-4"></textarea>
+      <span class="hint">One per line, written as label: value. Any line without a colon becomes a note.</span>
+    </label>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="addCancel">Cancel</button>
+      <button type="submit" class="btn primary">Add to unranked</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="shareDlg">
+  <h3>Your ranking</h3>
+  <label for="shareText">Copy this text
+    <textarea id="shareText" readonly></textarea>
+  </label>
+  <div class="dlg-actions">
+    <button type="button" class="btn primary" id="shareClose">Done</button>
+  </div>
+</dialog>
+
+<input type="file" id="fileInput" accept="image/*" class="visually-hidden" tabindex="-1" aria-hidden="true">
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:16px">This tier list needs JavaScript to run.</p></noscript>
+
 <script>
-(function(){
-  "use strict";
+(function () {
+  'use strict';
 
-  const STORAGE_KEY = "treetopTierList_v1";
-  const TIERS = ["S","A","B","C","D","F"];
+  var TIERS = ['S', 'A', 'B', 'C', 'D', 'F'];
+  var KEY_ORDER = 'canes-qb-tiers:v1';
+  var KEY_PHOTOS = 'canes-qb-photos:v1';
 
-  // Placeholder image if fetch fails / offline
-  const FALLBACK_IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60">' +
-    '<rect width="100" height="60" fill="#cbb98f"/>' +
-    '<text x="50" y="35" font-size="28" text-anchor="middle">🐦</text></svg>'
-  );
-
-  const birds = [
-    {id:"bald_eagle", name:"Bald Eagle", wiki:"Bald_eagle", cat:"Raptor"},
-    {id:"golden_eagle", name:"Golden Eagle", wiki:"Golden_eagle", cat:"Raptor"},
-    {id:"peregrine_falcon", name:"Peregrine Falcon", wiki:"Peregrine_falcon", cat:"Raptor"},
-    {id:"red_tailed_hawk", name:"Red-tailed Hawk", wiki:"Red-tailed_hawk", cat:"Raptor"},
-    {id:"osprey", name:"Osprey", wiki:"Osprey", cat:"Raptor"},
-    {id:"harpy_eagle", name:"Harpy Eagle", wiki:"Harpy_eagle", cat:"Raptor"},
-    {id:"secretarybird", name:"Secretarybird", wiki:"Secretarybird", cat:"Raptor"},
-    {id:"andean_condor", name:"Andean Condor", wiki:"Andean_condor", cat:"Raptor"},
-    {id:"king_vulture", name:"King Vulture", wiki:"King_vulture", cat:"Raptor"},
-
-    {id:"snowy_owl", name:"Snowy Owl", wiki:"Snowy_owl", cat:"Owl"},
-    {id:"great_horned_owl", name:"Great Horned Owl", wiki:"Great_horned_owl", cat:"Owl"},
-    {id:"barn_owl", name:"Barn Owl", wiki:"Barn_owl", cat:"Owl"},
-    {id:"great_grey_owl", name:"Great Grey Owl", wiki:"Great_grey_owl", cat:"Owl"},
-    {id:"eastern_screech_owl", name:"Eastern Screech Owl", wiki:"Eastern_screech_owl", cat:"Owl"},
-
-    {id:"common_raven", name:"Common Raven", wiki:"Common_raven", cat:"Corvid"},
-    {id:"american_crow", name:"American Crow", wiki:"American_crow", cat:"Corvid"},
-    {id:"blue_jay", name:"Blue Jay", wiki:"Blue_jay", cat:"Corvid"},
-    {id:"eurasian_magpie", name:"Eurasian Magpie", wiki:"Eurasian_magpie", cat:"Corvid"},
-    {id:"stellers_jay", name:"Steller's Jay", wiki:"Steller%27s_jay", cat:"Corvid"},
-
-    {id:"mallard", name:"Mallard", wiki:"Mallard", cat:"Waterfowl"},
-    {id:"canada_goose", name:"Canada Goose", wiki:"Canada_goose", cat:"Waterfowl"},
-    {id:"mute_swan", name:"Mute Swan", wiki:"Mute_swan", cat:"Waterfowl"},
-    {id:"wood_duck", name:"Wood Duck", wiki:"Wood_duck", cat:"Waterfowl"},
-    {id:"mandarin_duck", name:"Mandarin Duck", wiki:"Mandarin_duck", cat:"Waterfowl"},
-
-    {id:"atlantic_puffin", name:"Atlantic Puffin", wiki:"Atlantic_puffin", cat:"Seabird"},
-    {id:"brown_pelican", name:"Brown Pelican", wiki:"Brown_pelican", cat:"Seabird"},
-    {id:"royal_albatross", name:"Royal Albatross", wiki:"Royal_albatross", cat:"Seabird"},
-    {id:"northern_gannet", name:"Northern Gannet", wiki:"Northern_gannet", cat:"Seabird"},
-    {id:"emperor_penguin", name:"Emperor Penguin", wiki:"Emperor_penguin", cat:"Seabird"},
-
-    {id:"scarlet_macaw", name:"Scarlet Macaw", wiki:"Scarlet_macaw", cat:"Exotic"},
-    {id:"toco_toucan", name:"Toco Toucan", wiki:"Toco_toucan", cat:"Exotic"},
-    {id:"resplendent_quetzal", name:"Resplendent Quetzal", wiki:"Resplendent_quetzal", cat:"Exotic"},
-    {id:"indian_peafowl", name:"Indian Peafowl", wiki:"Indian_peafowl", cat:"Exotic"},
-    {id:"rainbow_lorikeet", name:"Rainbow Lorikeet", wiki:"Rainbow_lorikeet", cat:"Exotic"},
-    {id:"greater_flamingo", name:"Greater Flamingo", wiki:"Greater_flamingo", cat:"Exotic"},
-    {id:"victoria_crowned_pigeon", name:"Victoria Crowned Pigeon", wiki:"Victoria_crowned_pigeon", cat:"Exotic"},
-    {id:"hyacinth_macaw", name:"Hyacinth Macaw", wiki:"Hyacinth_macaw", cat:"Exotic"},
-    {id:"superb_bird_of_paradise", name:"Superb Bird-of-paradise", wiki:"Superb_bird-of-paradise", cat:"Exotic"},
-
-    {id:"ruby_throated_hummingbird", name:"Ruby-throated Hummingbird", wiki:"Ruby-throated_hummingbird", cat:"Hummingbird"},
-    {id:"annas_hummingbird", name:"Anna's Hummingbird", wiki:"Anna%27s_hummingbird", cat:"Hummingbird"},
-    {id:"sword_billed_hummingbird", name:"Sword-billed Hummingbird", wiki:"Sword-billed_hummingbird", cat:"Hummingbird"},
-
-    {id:"american_robin", name:"American Robin", wiki:"American_robin", cat:"Songbird"},
-    {id:"house_sparrow", name:"House Sparrow", wiki:"House_sparrow", cat:"Songbird"},
-    {id:"european_robin", name:"European Robin", wiki:"European_robin", cat:"Songbird"},
-    {id:"northern_cardinal", name:"Northern Cardinal", wiki:"Northern_cardinal", cat:"Songbird"},
-    {id:"black_capped_chickadee", name:"Black-capped Chickadee", wiki:"Black-capped_chickadee", cat:"Songbird"},
-    {id:"european_starling", name:"European Starling", wiki:"Common_starling", cat:"Songbird"},
-    {id:"barn_swallow", name:"Barn Swallow", wiki:"Barn_swallow", cat:"Songbird"},
-    {id:"house_finch", name:"House Finch", wiki:"House_finch", cat:"Songbird"},
-    {id:"american_goldfinch", name:"American Goldfinch", wiki:"American_goldfinch", cat:"Songbird"},
-    {id:"song_thrush", name:"Song Thrush", wiki:"Song_thrush", cat:"Songbird"},
-
-    {id:"pileated_woodpecker", name:"Pileated Woodpecker", wiki:"Pileated_woodpecker", cat:"Woodpecker"},
-    {id:"downy_woodpecker", name:"Downy Woodpecker", wiki:"Downy_woodpecker", cat:"Woodpecker"},
-    {id:"northern_flicker", name:"Northern Flicker", wiki:"Northern_flicker", cat:"Woodpecker"},
-
-    {id:"great_blue_heron", name:"Great Blue Heron", wiki:"Great_blue_heron", cat:"Wading Bird"},
-    {id:"sandhill_crane", name:"Sandhill Crane", wiki:"Sandhill_crane", cat:"Wading Bird"},
-    {id:"american_white_ibis", name:"American White Ibis", wiki:"American_white_ibis", cat:"Wading Bird"},
-    {id:"roseate_spoonbill", name:"Roseate Spoonbill", wiki:"Roseate_spoonbill", cat:"Wading Bird"},
-
-    {id:"ostrich", name:"Common Ostrich", wiki:"Common_ostrich", cat:"Flightless"},
-    {id:"southern_cassowary", name:"Southern Cassowary", wiki:"Southern_cassowary", cat:"Flightless"},
-    {id:"kiwi", name:"Southern Brown Kiwi", wiki:"Southern_brown_kiwi", cat:"Flightless"},
-
-    {id:"wild_turkey", name:"Wild Turkey", wiki:"Wild_turkey", cat:"Game Bird"},
-    {id:"ring_necked_pheasant", name:"Ring-necked Pheasant", wiki:"Common_pheasant", cat:"Game Bird"},
-
-    {id:"grey_parrot", name:"Grey Parrot", wiki:"Grey_parrot", cat:"Parrot"},
-    {id:"cockatiel", name:"Cockatiel", wiki:"Cockatiel", cat:"Parrot"},
-
-    {id:"common_kingfisher", name:"Common Kingfisher", wiki:"Common_kingfisher", cat:"Kingfisher"},
-    {id:"belted_kingfisher", name:"Belted Kingfisher", wiki:"Belted_kingfisher", cat:"Kingfisher"}
+  var BASE = [
+    { id: 'dorsey', name: 'Ken Dorsey', years: '1999-2002',
+      stats: [['Pass yards', '9,565'], ['Pass TD', '86'], ['Record as starter', '38-2']],
+      note: 'Won the 2001 national title and the Maxwell Award.' },
+    { id: 'berlin', name: 'Brock Berlin', years: '2003-2004',
+      stats: [['Pass yards', '5,099'], ['Pass TD', '34'], ['Record as starter', '19-5']],
+      note: 'Went 5-0 against Florida and Florida State.' },
+    { id: 'wright', name: 'Kyle Wright', years: '2004-2007',
+      stats: [['Total offense', '5,706'], ['2005 pass TD', '18'], ['2005 team record', '9-3']],
+      note: 'Tied the school record with 5 TD passes vs Wake Forest in 2005.' },
+    { id: 'harris', name: 'Jacory Harris', years: '2008-2011',
+      stats: [['Pass yards', '8,826'], ['Pass TD', '70'], ['2009 pass yards', '3,352']],
+      note: 'Second on Miami\u2019s all-time list for career TD passes.' },
+    { id: 'morris', name: 'Stephen Morris', years: '2010-2013',
+      stats: [['Pass yards', '7,896'], ['Pass TD', '49'], ['2012 pass yards', '3,345']],
+      note: 'Owns the Miami single-game record: 566 passing yards vs NC State in 2012.' },
+    { id: 'kaaya', name: 'Brad Kaaya', years: '2014-2016',
+      stats: [['Pass yards', '9,968'], ['Pass TD', '69'], ['2016 pass yards', '3,532']],
+      note: 'Owns Miami\u2019s career passing yards record.' },
+    { id: 'rosier', name: 'Malik Rosier', years: '2015-2018',
+      stats: [['2017 total offense', '3,588'], ['2017 pass TD', '26'], ['2017 total TD', '31']],
+      note: 'Led Miami to a 10-0 start in 2017.' },
+    { id: 'perry', name: 'N\u2019Kosi Perry', years: '2018-2019',
+      stats: [['2019 pass yards', '1,045'], ['2019 pass TD', '8'], ['2019 INT', '3']],
+      note: 'Threw for 422 yards against Virginia Tech in 2019.' },
+    { id: 'jwilliams', name: 'Jarren Williams', years: '2019 (starter)',
+      stats: [['2019 pass yards', '2,187'], ['2019 pass TD', '19'], ['2019 INT', '7']],
+      note: 'Threw 6 TD passes vs Louisville in 2019, a Miami single-game record.' },
+    { id: 'king', name: 'D\u2019Eriq King', years: '2020-2021',
+      stats: [['2020 total offense', '3,224'], ['2020 total TD', '27']],
+      note: 'Houston transfer. Put up 535 total yards vs NC State in 2020.' },
+    { id: 'vandyke', name: 'Tyler Van Dyke', years: '2020-2023',
+      stats: [['Pass yards', '7,478'], ['Pass TD', '54'], ['2021 pass TD', '25']],
+      note: 'Threw for 496 yards vs North Carolina in 2022 and 5 TD passes vs Texas A&M in 2023.' },
+    { id: 'ward', name: 'Cam Ward', years: '2024',
+      stats: [['Pass yards', '4,313'], ['Pass TD', '39'], ['INT', '7']],
+      note: 'Set Miami\u2019s single-season records for passing yards and TDs. Heisman finalist.' },
+    { id: 'beck', name: 'Carson Beck', years: '2025',
+      stats: [['Pass yards', '3,813'], ['Pass TD', '30'], ['Team record', '13-3']],
+      note: 'Led Miami to the national title game, a 27-21 loss to Indiana.' },
+    { id: 'mensah', name: 'Darian Mensah', years: '2026-present',
+      stats: [['Pass yards', '873'], ['Pass TD', '11'], ['INT', '0']],
+      note: 'Duke transfer. Stats through three games, including an ACC record 24 straight completions.' }
   ];
 
-  let state = loadState();
-
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw) return JSON.parse(raw);
-    }catch(e){}
-    const s = {};
-    birds.forEach(b => s[b.id] = "pool");
-    return s;
+  /* ---------- helpers ---------- */
+  function $(sel) { return document.querySelector(sel); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function readJSON(key, fallback) {
+    try {
+      var raw = window.localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function writeJSON(key, value) {
+    try { window.localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch (e) { return false; }
+  }
+  function initials(name) {
+    return name.split(/\s+/).filter(Boolean).map(function (w) { return w.charAt(0); }).slice(0, 2).join('').toUpperCase();
   }
 
-  function saveState(){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  /* ---------- state ---------- */
+  var saved = readJSON(KEY_ORDER, {}) || {};
+  var custom = Array.isArray(saved.custom) ? saved.custom.filter(function (c) {
+    return c && typeof c.id === 'string' && typeof c.name === 'string' && Array.isArray(c.stats);
+  }) : [];
+  var photos = readJSON(KEY_PHOTOS, {}) || {};
+  var order = { pool: [], S: [], A: [], B: [], C: [], D: [], F: [] };
+
+  function players() { return BASE.concat(custom); }
+  function byId(id) {
+    var all = players();
+    for (var i = 0; i < all.length; i++) { if (all[i].id === id) return all[i]; }
+    return null;
   }
 
-  function render(){
-    document.querySelectorAll(".dropzone").forEach(z => z.innerHTML = "");
-    const zones = {};
-    TIERS.forEach(t => zones[t] = document.querySelector('.dropzone[data-tier="'+t+'"]'));
-    zones.pool = document.getElementById("pool");
+  (function initOrder() {
+    var seen = {};
+    var so = saved.order || {};
+    Object.keys(order).forEach(function (key) {
+      var ids = Array.isArray(so[key]) ? so[key] : [];
+      ids.forEach(function (id) {
+        if (byId(id) && !seen[id]) { order[key].push(id); seen[id] = true; }
+      });
+    });
+    players().forEach(function (p) { if (!seen[p.id]) order.pool.push(p.id); });
+  })();
 
-    const filter = document.getElementById("search-input").value.trim().toLowerCase();
+  /* ---------- DOM ---------- */
+  var tiersEl = $('#tiers');
+  var poolEl = $('#pool');
+  var poolZone = $('#poolZone');
+  var toastEl = $('#toast');
+  var cards = {};
 
-    birds.forEach(bird => {
-      const tier = state[bird.id] || "pool";
-      const zone = zones[tier] || zones.pool;
-      const tile = buildTile(bird);
-      if(tier === "pool" && filter){
-        const match = bird.name.toLowerCase().includes(filter) || bird.cat.toLowerCase().includes(filter);
-        tile.style.display = match ? "" : "none";
-      }
-      zone.appendChild(tile);
+  TIERS.forEach(function (t) {
+    var row = document.createElement('section');
+    row.className = 'tier';
+    row.setAttribute('data-tier', t);
+    row.setAttribute('aria-label', 'Tier ' + t);
+    row.innerHTML = '<div class="tier-label" aria-hidden="true">' + t + '</div>' +
+      '<div class="zone" data-zone="' + t + '" data-hint="Drop quarterbacks here"></div>';
+    tiersEl.appendChild(row);
+  });
+
+  function zoneFor(key) {
+    return key === 'pool' ? poolZone : tiersEl.querySelector('[data-zone="' + key + '"]');
+  }
+
+  var CAMERA = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+
+  function attachPhoto(el, id, name) {
+    var box = el.querySelector('.photo');
+    var old = box.querySelector('img');
+    if (old) old.remove();
+    if (photos[id]) {
+      var img = document.createElement('img');
+      img.alt = name;
+      img.draggable = false;
+      img.src = photos[id];
+      box.insertBefore(img, box.querySelector('.years'));
+    }
+  }
+
+  function buildCard(p) {
+    var el = document.createElement('article');
+    el.className = 'card';
+    el.setAttribute('data-id', p.id);
+    el.tabIndex = 0;
+    el.setAttribute('aria-label', p.name + ', ' + p.years + '. Press S, A, B, C, D or F to rank, or U to unrank.');
+
+    var stats = p.stats.map(function (s) {
+      return '<dt>' + esc(s[0]) + '</dt><dd>' + esc(s[1]) + '</dd>';
+    }).join('');
+    var isCustom = p.id.charAt(0) === 'c' && p.id.indexOf('_') === 1;
+
+    el.innerHTML =
+      '<div class="photo">' +
+        '<span class="initials" aria-hidden="true">' + esc(initials(p.name)) + '</span>' +
+        '<span class="years">' + esc(p.years || '') + '</span>' +
+        '<button type="button" class="photo-btn" aria-label="Add or change photo for ' + esc(p.name) + '">' + CAMERA + '</button>' +
+        (isCustom ? '<button type="button" class="remove-btn" aria-label="Remove ' + esc(p.name) + '">\u00D7</button>' : '') +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="name">' + esc(p.name) + '</div>' +
+        (stats ? '<dl class="stats">' + stats + '</dl>' : '') +
+        (p.note ? '<p class="note">' + esc(p.note) + '</p>' : '') +
+      '</div>';
+    attachPhoto(el, p.id, p.name);
+    cards[p.id] = el;
+    return el;
+  }
+
+  function placeAll() {
+    players().forEach(function (p) { if (!cards[p.id]) buildCard(p); });
+    Object.keys(order).forEach(function (key) {
+      order[key].forEach(function (id) { zoneFor(key).appendChild(cards[id]); });
     });
   }
 
-  function buildTile(bird){
-    const tile = document.createElement("div");
-    tile.className = "bird-tile";
-    tile.dataset.id = bird.id;
-    tile.innerHTML =
-      '<img src="' + (bird.img || FALLBACK_IMG) + '" alt="' + bird.name + '" loading="lazy">' +
-      '<div class="bird-name">' + bird.name + '</div>' +
-      '<div class="bird-cat">' + bird.cat + '</div>';
-    attachDrag(tile);
-    return tile;
+  function updateCounter() {
+    var total = players().length;
+    var ranked = total - order.pool.length;
+    $('#count').textContent = ranked + ' of ' + total + ' ranked';
+    $('#barFill').style.width = total ? Math.round(ranked / total * 100) + '%' : '0%';
   }
 
-  // --- Pointer-based drag & drop (works for mouse + touch) ---
-  let ghost = null;
-  let draggedTile = null;
+  function persist() { writeJSON(KEY_ORDER, { order: order, custom: custom }); }
 
-  function attachDrag(tile){
-    tile.addEventListener("pointerdown", onPointerDown);
+  function sync() {
+    Object.keys(order).forEach(function (key) {
+      order[key] = Array.prototype.map.call(zoneFor(key).children, function (c) { return c.getAttribute('data-id'); });
+    });
+    persist();
+    updateCounter();
   }
 
-  function onPointerDown(e){
-    draggedTile = e.currentTarget;
-    draggedTile.setPointerCapture(e.pointerId);
-    draggedTile.classList.add("dragging");
+  var toastTimer = null;
+  function say(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+  }
 
-    ghost = draggedTile.cloneNode(true);
-    ghost.id = "drag-ghost";
-    ghost.classList.remove("dragging");
+  function zoneKeyOf(card) { return card.parentNode.getAttribute('data-zone'); }
+  function announceMove(card) {
+    var p = byId(card.getAttribute('data-id'));
+    var key = zoneKeyOf(card);
+    say(p.name + (key === 'pool' ? ' moved to unranked' : ' moved to ' + key + ' tier'));
+  }
+
+  function moveToTier(card, key) {
+    zoneFor(key).appendChild(card);
+    sync();
+    announceMove(card);
+    card.focus({ preventScroll: true });
+  }
+
+  placeAll();
+  updateCounter();
+
+  /* ---------- keyboard ranking ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (drag && drag.active && e.key === 'Escape') { endDrag(false); return; }
+    var card = e.target && e.target.classList && e.target.classList.contains('card') ? e.target : null;
+    if (!card || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+    if (TIERS.indexOf(k) >= 0) { e.preventDefault(); moveToTier(card, k); }
+    else if (k === 'U' || k === 'Backspace' || k === 'Delete') { e.preventDefault(); moveToTier(card, 'pool'); }
+  });
+
+  /* ---------- pointer drag and drop ---------- */
+  var drag = null;
+
+  document.addEventListener('pointerdown', function (e) {
+    if (drag) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    var card = e.target.closest ? e.target.closest('.card') : null;
+    if (!card || card.classList.contains('ghost')) return;
+    if (e.target.closest('.photo-btn, .remove-btn')) return;
+
+    drag = {
+      card: card, pointerId: e.pointerId, type: e.pointerType,
+      startX: e.clientX, startY: e.clientY, x: e.clientX, y: e.clientY,
+      active: false, timer: null, ghost: null, over: null, raf: 0,
+      origin: null, offX: 0, offY: 0
+    };
+    if (e.pointerType !== 'mouse') {
+      drag.timer = setTimeout(function () {
+        if (drag && !drag.active) beginDrag(drag.x, drag.y);
+      }, 220);
+    }
+    window.addEventListener('pointermove', onMove, { passive: false });
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onCancel);
+  });
+
+  document.addEventListener('touchmove', function (e) {
+    if (drag && drag.active) e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('contextmenu', function (e) {
+    if (drag && e.target.closest && e.target.closest('.card')) e.preventDefault();
+  });
+
+  function beginDrag(x, y) {
+    var d = drag;
+    clearTimeout(d.timer);
+    d.active = true;
+    var rect = d.card.getBoundingClientRect();
+    d.offX = x - rect.left;
+    d.offY = y - rect.top;
+    d.origin = { parent: d.card.parentNode, next: d.card.nextSibling };
+    var ghost = d.card.cloneNode(true);
+    ghost.classList.add('ghost');
+    ghost.removeAttribute('tabindex');
+    ghost.setAttribute('aria-hidden', 'true');
+    ghost.style.width = rect.width + 'px';
     document.body.appendChild(ghost);
-    moveGhost(e.clientX, e.clientY);
-
-    document.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerup", onPointerUp, {once:true});
+    d.ghost = ghost;
+    d.card.classList.add('is-dragging');
+    document.body.classList.add('dragging');
+    placeGhost();
+    updateTarget(x, y);
+    d.raf = requestAnimationFrame(tick);
   }
 
-  function moveGhost(x, y){
-    if(ghost){
-      ghost.style.left = x + "px";
-      ghost.style.top = y + "px";
+  function placeGhost() {
+    var d = drag;
+    d.ghost.style.transform = 'translate(' + (d.x - d.offX) + 'px,' + (d.y - d.offY) + 'px) rotate(2deg)';
+  }
+
+  function onMove(e) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    if (!drag.active) {
+      var dist = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY);
+      if (drag.type === 'mouse') { if (dist > 5) beginDrag(e.clientX, e.clientY); }
+      else if (dist > 10) { endDrag(false); }
+      return;
     }
+    if (e.cancelable) e.preventDefault();
+    placeGhost();
+    updateTarget(e.clientX, e.clientY);
   }
 
-  function onPointerMove(e){
-    moveGhost(e.clientX, e.clientY);
-    document.querySelectorAll(".dropzone.drag-over").forEach(z => z.classList.remove("drag-over"));
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    const zone = el && el.closest(".dropzone");
-    if(zone) zone.classList.add("drag-over");
+  function highlight(zone) {
+    if (drag.over === zone) return;
+    if (drag.over) drag.over.classList.remove('over');
+    if (zone) zone.classList.add('over');
+    drag.over = zone;
   }
 
-  function onPointerUp(e){
-    document.removeEventListener("pointermove", onPointerMove);
-    document.querySelectorAll(".dropzone.drag-over").forEach(z => z.classList.remove("drag-over"));
-
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    const zone = el && el.closest(".dropzone");
-    if(zone && draggedTile){
-      const tier = zone.dataset.tier;
-      state[draggedTile.dataset.id] = tier;
-      saveState();
+  function updateTarget(x, y) {
+    var under = document.elementFromPoint(x, y);
+    var zone = null;
+    if (under && under.closest) {
+      var host = under.closest('.tier, .pool');
+      if (host) zone = host.querySelector('.zone');
     }
-
-    if(ghost){ ghost.remove(); ghost = null; }
-    if(draggedTile){ draggedTile.classList.remove("dragging"); }
-    draggedTile = null;
-    render();
+    highlight(zone);
+    if (!zone) return;
+    var card = drag.card;
+    var ref = null;
+    var kids = Array.prototype.filter.call(zone.children, function (c) {
+      return c !== card && c.classList.contains('card');
+    });
+    for (var i = 0; i < kids.length; i++) {
+      var r = kids[i].getBoundingClientRect();
+      if (y < r.top) { ref = kids[i]; break; }
+      if (y <= r.bottom && x < r.left + r.width / 2) { ref = kids[i]; break; }
+    }
+    if (card.parentNode !== zone || card.nextElementSibling !== ref) zone.insertBefore(card, ref);
   }
 
-  // --- Load real bird photos from Wikipedia (falls back to placeholder if offline) ---
-  async function loadImages(){
-    await Promise.all(birds.map(async bird => {
-      try{
-        const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + bird.wiki);
-        if(!res.ok) return;
-        const data = await res.json();
-        if(data.thumbnail && data.thumbnail.source){
-          bird.img = data.thumbnail.source;
-        }
-      }catch(err){ /* keep fallback image */ }
-    }));
-    render();
+  function tick() {
+    if (!drag || !drag.active) return;
+    var x = drag.x, y = drag.y, edge = 80, moved = false;
+    if (y < edge) { window.scrollBy(0, -Math.ceil((edge - y) / 6)); moved = true; }
+    else if (y > window.innerHeight - edge) { window.scrollBy(0, Math.ceil((y - (window.innerHeight - edge)) / 6)); moved = true; }
+    var pr = poolEl.getBoundingClientRect();
+    if (poolEl.scrollHeight > poolEl.clientHeight + 2 && x >= pr.left && x <= pr.right && y >= pr.top && y <= pr.bottom) {
+      if (y < pr.top + edge) { poolEl.scrollTop -= 10; moved = true; }
+      else if (y > pr.bottom - edge) { poolEl.scrollTop += 10; moved = true; }
+    }
+    if (moved) updateTarget(x, y);
+    drag.raf = requestAnimationFrame(tick);
   }
 
-  // --- Toolbar actions ---
-  document.getElementById("reset-btn").addEventListener("click", () => {
-    if(!confirm("Reset all rankings back to the Bird Bank?")) return;
-    birds.forEach(b => state[b.id] = "pool");
-    saveState();
-    render();
+  function onUp(e) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    endDrag(true);
+  }
+  function onCancel(e) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    endDrag(false);
+  }
+
+  function endDrag(commit) {
+    var d = drag;
+    if (!d) return;
+    clearTimeout(d.timer);
+    cancelAnimationFrame(d.raf);
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('pointercancel', onCancel);
+    if (d.active) {
+      if (d.over) d.over.classList.remove('over');
+      if (d.ghost) d.ghost.remove();
+      d.card.classList.remove('is-dragging');
+      document.body.classList.remove('dragging');
+      if (commit) {
+        sync();
+        announceMove(d.card);
+        d.card.focus({ preventScroll: true });
+      } else if (d.origin) {
+        d.origin.parent.insertBefore(d.card, d.origin.next);
+      }
+    }
+    drag = null;
+  }
+
+  /* ---------- photos ---------- */
+  var fileInput = $('#fileInput');
+  var pendingPhotoId = null;
+
+  document.addEventListener('click', function (e) {
+    var pb = e.target.closest ? e.target.closest('.photo-btn') : null;
+    if (pb) {
+      pendingPhotoId = pb.closest('.card').getAttribute('data-id');
+      fileInput.value = '';
+      fileInput.click();
+      return;
+    }
+    var rb = e.target.closest ? e.target.closest('.remove-btn') : null;
+    if (rb) removeCustom(rb.closest('.card').getAttribute('data-id'));
   });
 
-  document.getElementById("export-img-btn").addEventListener("click", () => {
-    html2canvas(document.getElementById("tier-list"), {backgroundColor:"#1b2f1a"}).then(canvas => {
-      const link = document.createElement("a");
-      link.download = "treetop-tier-list.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
+  fileInput.addEventListener('change', function () {
+    var file = fileInput.files && fileInput.files[0];
+    var id = pendingPhotoId;
+    if (!file || !id) return;
+    if (!/^image\//.test(file.type)) { say('Choose an image file.'); return; }
+    var reader = new FileReader();
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var W = 320, H = 400;
+        var canvas = document.createElement('canvas');
+        canvas.width = W; canvas.height = H;
+        var ctx = canvas.getContext('2d');
+        var scale = Math.max(W / img.width, H / img.height);
+        var sw = W / scale, sh = H / scale;
+        var sx = (img.width - sw) / 2;
+        var sy = (img.height - sh) * 0.2;
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+        photos[id] = canvas.toDataURL('image/jpeg', 0.85);
+        var p = byId(id);
+        if (cards[id] && p) attachPhoto(cards[id], id, p.name);
+        if (!writeJSON(KEY_PHOTOS, photos)) say('Photo added, but it will not be kept after you close this page.');
+        else say('Photo added to ' + (p ? p.name : 'card') + '.');
+      };
+      img.onerror = function () { say('That image could not be read.'); };
+      img.src = reader.result;
+    };
+    reader.onerror = function () { say('That file could not be read.'); };
+    reader.readAsDataURL(file);
   });
 
-  document.getElementById("export-json-btn").addEventListener("click", () => {
-    const grouped = {};
-    TIERS.forEach(t => grouped[t] = []);
-    birds.forEach(b => {
-      const tier = state[b.id];
-      if(tier && tier !== "pool") grouped[tier].push(b.name);
+  /* ---------- custom quarterbacks ---------- */
+  var addDlg = $('#addDlg');
+  var addForm = $('#addForm');
+
+  function openDialog(dlg) {
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+  function closeDialog(dlg) {
+    if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open');
+  }
+
+  $('#addBtn').addEventListener('click', function () {
+    addForm.reset();
+    openDialog(addDlg);
+    $('#fName').focus();
+  });
+  $('#addCancel').addEventListener('click', function () { closeDialog(addDlg); });
+
+  addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('#fName').value.trim();
+    if (!name) { $('#fName').focus(); return; }
+    var years = $('#fYears').value.trim();
+    var stats = [], notes = [];
+    $('#fStats').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean).forEach(function (line) {
+      var i = line.indexOf(':');
+      if (i > 0 && stats.length < 4) stats.push([line.slice(0, i).trim(), line.slice(i + 1).trim()]);
+      else notes.push(line);
     });
-    let text = "My Treetop Tier List:\n";
-    TIERS.forEach(t => {
-      text += t + ": " + (grouped[t].join(", ") || "-") + "\n";
-    });
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Rankings copied to clipboard!");
-    }).catch(() => {
-      prompt("Copy your rankings:", text);
-    });
+    var p = {
+      id: 'c_' + Date.now().toString(36) + Math.floor(Math.random() * 1000).toString(36),
+      name: name, years: years, stats: stats, note: notes.join(' ')
+    };
+    custom.push(p);
+    order.pool.push(p.id);
+    poolZone.appendChild(buildCard(p));
+    sync();
+    closeDialog(addDlg);
+    say(name + ' added to unranked.');
   });
 
-  document.getElementById("search-input").addEventListener("input", render);
+  function removeCustom(id) {
+    var p = byId(id);
+    custom = custom.filter(function (c) { return c.id !== id; });
+    if (cards[id]) { cards[id].remove(); delete cards[id]; }
+    delete photos[id];
+    writeJSON(KEY_PHOTOS, photos);
+    sync();
+    say((p ? p.name : 'Card') + ' removed.');
+  }
 
-  render();
-  loadImages();
+  /* ---------- copy and reset ---------- */
+  function rankingText() {
+    var lines = ['Canes QB tier list'];
+    TIERS.forEach(function (t) {
+      if (order[t].length) lines.push(t + ': ' + order[t].map(function (id) { return byId(id).name; }).join(', '));
+    });
+    if (order.pool.length) lines.push('Unranked: ' + order.pool.map(function (id) { return byId(id).name; }).join(', '));
+    return lines.join('\n');
+  }
+
+  var shareDlg = $('#shareDlg');
+  function showShare(text) {
+    $('#shareText').value = text;
+    openDialog(shareDlg);
+    $('#shareText').focus();
+    $('#shareText').select();
+  }
+  $('#shareClose').addEventListener('click', function () { closeDialog(shareDlg); });
+
+  $('#copyBtn').addEventListener('click', function () {
+    var text = rankingText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { say('Ranking copied.'); },
+        function () { showShare(text); }
+      );
+    } else { showShare(text); }
+  });
+
+  var resetBtn = $('#resetBtn');
+  var resetArmed = false, resetTimer = null;
+  function disarmReset() {
+    resetArmed = false;
+    resetBtn.textContent = 'Reset';
+    clearTimeout(resetTimer);
+  }
+  resetBtn.addEventListener('click', function () {
+    if (!resetArmed) {
+      resetArmed = true;
+      resetBtn.textContent = 'Click again to reset';
+      resetTimer = setTimeout(disarmReset, 3500);
+      return;
+    }
+    disarmReset();
+    Object.keys(order).forEach(function (k) { order[k] = []; });
+    players().forEach(function (p) { poolZone.appendChild(cards[p.id]); });
+    sync();
+    say('Tier list cleared.');
+  });
 })();
 </script>
-
 </body>
 </html>
