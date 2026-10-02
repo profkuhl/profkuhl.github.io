@@ -331,6 +331,30 @@
     max-width: 90ch;
   }
 
+  .footer-note { margin: 0; }
+  .credit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .credit img {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--orange);
+    background: var(--ph-a);
+  }
+  .credit p {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
   .toast {
     position: fixed;
     left: 50%;
@@ -437,7 +461,13 @@
 </main>
 
 <footer>
-  Stats are Miami only, from the University of Miami's official records and Wikipedia's Miami football statistical leaders, current through Week 4 of 2026. Mensah's line covers his first three games. To add a photo, use the camera button on any card.
+  <p class="footer-note">
+    Stats are Miami only, from the University of Miami's official records and Wikipedia's Miami football statistical leaders, current through Week 4 of 2026. Mensah's line covers his first three games. To add a photo, use the camera button on any card.
+  </p>
+  <div class="credit">
+    <img src="ryan-kuhl.jpg" alt="Ryan Kuhl" width="44" height="44">
+    <p>Made by Ryan Kuhl</p>
+  </div>
 </footer>
 
 <dialog id="addDlg">
